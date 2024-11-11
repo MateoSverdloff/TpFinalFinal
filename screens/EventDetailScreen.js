@@ -18,7 +18,6 @@ const EventDetailScreen = ({ route }) => {
         const fetchEvent = async () => {
             try {
                 const data = await getEventById(eventId);
-
                 if (data.success) {
                     setEvent(data.response);
                     await handleParticipants();

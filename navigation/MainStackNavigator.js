@@ -1,11 +1,11 @@
-// MainStackNavigator.js
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import BottomTabNavigator from './BottomTabNavigator'; 
 import LoginScreen from '../screens/LoginScreen.js';
 import RegisterScreen from '../screens/RegisterScreen.js'; 
 import EventDetailScreen from '../screens/EventDetailScreen';
-import { useAuth } from '../AuthContext.js'
+import EventCategoryDetail from '../screens/EventCategoryDetail';
+import { useAuth } from '../AuthContext.js';
 
 const Stack = createNativeStackNavigator();
 
@@ -23,8 +23,13 @@ const MainStackNavigator = () => {
           />
           <Stack.Screen 
             name="EventDetail" 
-            component={EventDetailScreen} // Añade la pantalla aquí
+            component={EventDetailScreen} 
             options={{ title: 'Detalles del Evento' }}
+          />
+          <Stack.Screen 
+            name="EventCategoryDetail" 
+            component={EventCategoryDetail} 
+            options={{ title: 'Eventos por Categoría' }}
           />
         </>
       ) : (

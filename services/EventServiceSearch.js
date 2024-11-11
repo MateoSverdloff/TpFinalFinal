@@ -18,3 +18,15 @@ export const getCategories = async () => {
                     throw error;
                 }
 };
+
+export const getEventsByCategory = async (id) => {
+    try {
+        const response = await api.get(`https://wholly-intense-kiwi.ngrok-free.app/api/event/category/${id}`);
+        if (response.status === 200) {
+            return response.data.response;
+        }
+    } catch (error) {
+        throw error;
+    }
+};
+

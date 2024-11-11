@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, FlatList, TouchableOpacity, Alert } from 'react-native';
-import { getCategories } from '../services/EventSearch';
+import { getCategories } from '../services/EventServiceSearch';
 
-const EventSearch = () => {
+const EventSearch = ({ navigation }) => {
     const [categories, setCategories] = useState([]);
 
     useEffect(() => {
@@ -10,7 +10,6 @@ const EventSearch = () => {
             try {
                 const data = await getCategories();
                 setCategories(data);
-                console.log('PASA POR ACA?', data);
             } catch (error) {
                 Alert.alert('Error', 'Failed to load categories');
             }
@@ -19,7 +18,7 @@ const EventSearch = () => {
     }, []);
 
     const handleCategoryPress = (categoryId) => {
-        // Acción a realizar al hacer clic en una categoría
+        navigation.navigate('EventCategoryDetail', { categoryId });
     };
 
     const renderCategoryCard = ({ item }) => (
