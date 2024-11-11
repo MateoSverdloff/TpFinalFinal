@@ -1,5 +1,5 @@
 import React, { createContext, useState, useContext } from 'react';
-import { login as loginService, registerTo } from './services/UserServices.js';
+import { login as loginService, registerTo, getUser } from './services/UserServices.js';
 import {jwtDecode} from 'jwt-decode';
 
 const AuthContext = createContext();
@@ -14,6 +14,7 @@ export const AuthProvider = ({ children }) => {
       if (response.success) {
         setIsAuthenticated(true);
         const decodedUser = jwtDecode(response.token);
+        console.log(decodedUser)
         setUser({ ...decodedUser, token: response.token });
       } else {
         throw new Error(response.message);
@@ -35,7 +36,6 @@ export const AuthProvider = ({ children }) => {
       throw new Error(error.message || 'Registration failed');
     }
   };
-  
 
   const logout = () => {
     setIsAuthenticated(false);

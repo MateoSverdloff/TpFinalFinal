@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {jwtDecode} from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 
 const api = axios.create({
   baseURL: 'https://wholly-intense-kiwi.ngrok-free.app/api/user/',
@@ -25,27 +25,32 @@ export const login = async (username, password) => {
       username: username,
       password: password,
     });
-    const token = response.token;
+    const token = response.data.token;
     const getUserFromToken = (token) => {
       try {
-        console.log(token)
         const decodedToken = jwtDecode(token);
         return decodedToken;
       } catch (error) {
+        console.log('Error decoding token:', error);
         return null;
       }
     };
 
     if (response.data.success) {
       const user = getUserFromToken(token);
+      
       return response.data;
     } else {
       throw new Error(response.data.message);
     }
   } catch (error) {
+    console.error('Login error:', error);
     throw error;
   }
 };
+
+
+
 
 export const registerTo = async (first_name, last_name, username, password) => {
   try {
@@ -65,3 +70,16 @@ export const registerTo = async (first_name, last_name, username, password) => {
     throw new Error(error.response?.data?.message || 'Registration failed');
   }
 };
+
+
+export const getUser = async (id) => {
+  try {
+    const response = await api.get(`https://wholly-intense-kiwi.ngrok-free.app/api/user/${id}`);
+    console.log('Respuesta de getUser:', response);
+    return response.data; 
+  } catch (error) {
+    console.error('Error al traer el usuario:', error);
+    throw new Error('Error al traer el usuario');
+  }
+};
+

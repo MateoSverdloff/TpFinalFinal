@@ -1,15 +1,18 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { useAuth } from '../AuthContext';
+import {getUser} from '../services/UserServices.js'
 
-const UserProfileScreen = () => {
-  const { user } = useAuth(); 
-  console.log(user)
+const UserProfileScreen = async () => {
+  const { user } = useAuth();
+  console.log('user', user);
+  const datoUser = await getUser(user.id); 
+  console.log('datoUSer', datoUser);
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Nombre: {user?.first_name}</Text>
-      <Text style={styles.text}>Apellido: {user?.last_name}</Text>
-      <Text style={styles.text}>Correo: {user?.username}</Text>
+      <Text style={styles.text}>Nombre: {datoUser?.first_name}</Text>
+      <Text style={styles.text}>Apellido: {datoUser?.last_name}</Text>
+      <Text style={styles.text}>Correo: {datoUser?.username}</Text>
     </View>
   );
 };

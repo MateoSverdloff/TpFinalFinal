@@ -10,15 +10,19 @@ const LoginScreen = ({ navigation }) => {
   const handleLogin = async () => {
     if (username.trim() !== '' && password.trim() !== '') {
       try {
-        await login(username, password);
+        const user = await login(username, password);
         Alert.alert('Login successful');
+        console.log('Logged in user:', user);
       } catch (error) {
+        console.error('Login error:', error);
         Alert.alert(`Login failed: ${error.message}`);
       }
     } else {
       Alert.alert('Please enter both username and password');
     }
   };
+  
+  
 
   return (
     <View style={styles.container}>

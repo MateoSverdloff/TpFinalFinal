@@ -36,26 +36,21 @@ const EventDetailScreen = ({ route }) => {
 
     const handleParticipants = async () => {
         try {
-            const participantsData = await getParticipants(eventId);
-            console.log('Participantes respuesta: ', participantsData);
-    
+            const participantsData = await getParticipants(eventId);    
             if (participantsData.success) {
-                const participantList = participantsData.response[0].response; // Accediendo correctamente
+                const participantList = participantsData.response[0].response; 
     
                 setParticipants(participantList);
                 const isUserSubscribed = participantList.some(participant => participant.username === user.username);
                 setIsSubscribed(isUserSubscribed);
             } else {
-                Alert.alert('Error', 'Failed to load participants');
+                Alert.alert('Ojo!', 'No participo nadie :(');
             }
         } catch (error) {
-            console.error('Error fetching participants:', error);
-            Alert.alert('Error', 'Failed to load participants');
+            Alert.alert('Ojo!', 'No participo nadie :(');
         }
     };
     
-    
-
     const handleSubscribe = async () => {
         try {
             await subscribeToEvent(eventId, token);
@@ -84,6 +79,8 @@ const EventDetailScreen = ({ route }) => {
         return <Text>Event not found</Text>;
     }
 
+    const isEventPast = moment(event.start_date).isBefore(moment());
+
     return (
         <View style={styles.container}>
             <Text style={styles.title}>{event.name}</Text>
@@ -95,29 +92,30 @@ const EventDetailScreen = ({ route }) => {
             <Text>Creador: {event.creator_user.first_name} {event.creator_user.last_name}</Text>
             <Text>Ubicación: {event.event_location.name}</Text>
             <Text>Dirección: {event.event_location.full_address}</Text>
-
-            {/* Mostrar botón de suscripción según el estado de suscripción */}
-            <View style={styles.buttonContainer}>
-                {isSubscribed ? (
-                    <Button title="Desuscribirse" onPress={handleUnsubscribe} />
-                ) : (
-                    <Button title="Inscribirse" onPress={handleSubscribe} />
-                )}
-            </View>
+            
+            {!isEventPast && (
+                <View style={styles.buttonContainer}>
+                    {isSubscribed ? (
+                        <Button title="Desuscribirse" onPress={handleUnsubscribe} />
+                    ) : (
+                        <Button title="Inscribirse" onPress={handleSubscribe} />
+                    )}
+                </View>
+            )}
 
             <View>
                 <Text style={styles.participantHeader}>Participantes:</Text>
                 <FlatList
-    data={participants}
-    keyExtractor={(item) => item.username} // username es único
-    renderItem={({ item }) => (
-        <View style={styles.participantItem}>
-            <Text>
-                {item.first_name} {item.last_name} - Asistió: {moment(event.start_date).isBefore(moment()) ? (item.attended ? 'Sí' : 'No') : 'N/A'}
-            </Text>
-        </View>
-    )}
-/>
+                    data={participants}
+                    keyExtractor={(item) => item.username} 
+                    renderItem={({ item }) => (
+                        <View style={styles.participantItem}>
+                            <Text>
+                                {item.first_name} {item.last_name} - Asistió: {moment(event.start_date).isBefore(moment()) ? (item.attended ? 'Sí' : 'No') : 'N/A'}
+                            </Text>
+                        </View>
+                    )}
+                />
             </View>
         </View>
     );
