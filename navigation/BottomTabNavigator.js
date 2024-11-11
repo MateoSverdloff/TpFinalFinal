@@ -7,6 +7,8 @@ import LoginScreen from '../screens/LoginScreen.js';
 import { useAuth } from '../AuthContext.js';
 import EventScreen from '../screens/EventScreen';
 import UserProfileScreen from '../screens/UserProfileScreen';
+import EventSearch from '../screens/EventSearch.js';
+
 
 
 const Tab = createBottomTabNavigator();
@@ -22,16 +24,18 @@ const BottomTabNavigator = () => {
             iconName = 'search';
           } else if (route.name === 'UserProfile') {
             iconName = 'person';
-          } else if (route.name === 'Events') { // Agregamos esta línea
-            iconName = 'calendar'; // Puedes cambiar el ícono
+          } else if (route.name === 'Events') { 
+            iconName = 'calendar'; // 
+          } else if (route.name === 'Search') { 
+            iconName = 'search'; // 
           }
           return <Icon name={iconName} size={size} color={color} />;
         },
       })}
     >
-      <Tab.Screen name="UserGetById" component={UserGetById} options={{ title: 'Buscar Usuario' }} />
       <Tab.Screen name="UserProfile" component={UserProfileScreen} options={{ title: 'Perfil' }} />
       <Tab.Screen name="Events" component={EventScreen} options={{ title: 'Eventos' }} />
+      <Tab.Screen name="Search" component={EventSearch} options={{ title: 'Buscar' }} />
     </Tab.Navigator>
   );
 };

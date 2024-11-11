@@ -4,12 +4,12 @@ import { useAuth } from '../AuthContext';
 
 const UserProfileScreen = () => {
   const { user } = useAuth(); 
+  console.log(user)
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Nombre: {user?.first_name}</Text>
       <Text style={styles.text}>Apellido: {user?.last_name}</Text>
       <Text style={styles.text}>Correo: {user?.username}</Text>
-      {/* Agregar más info */}
     </View>
   );
 };

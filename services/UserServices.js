@@ -32,7 +32,6 @@ export const login = async (username, password) => {
         const decodedToken = jwtDecode(token);
         return decodedToken;
       } catch (error) {
-        /*console.error('Error decoding token:', error);*/
         return null;
       }
     };
